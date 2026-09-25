@@ -1,0 +1,434 @@
+﻿@model List<Room>
+
+@{
+    ViewData["Title"] = "Tìm phòng";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<style>
+    body { font-family: 'DM Sans', sans-serif; background: #f5f0eb; }
+
+    .page-wrapper { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    h1 { font-family: 'Playfair Display', serif; text-align: center; font-size: 2rem; color: #1a1a1a; margin-bottom: 28px; }
+
+    /* Form tìm */
+    .search-bar {
+        background: #fff;
+        border-radius: 14px;
+        padding: 20px 24px;
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        margin-bottom: 32px;
+    }
+    .search-bar .field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
+    .search-bar label { font-size: 0.75rem; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+    .search-bar input, .search-bar select {
+        padding: 9px 12px;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 8px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.95rem;
+        outline: none;
+        background: #fafafa;
+    }
+    .search-bar input:focus, .search-bar select:focus { border-color: #2c6e49; }
+    .btn-search {
+        padding: 10px 24px;
+        background: #2c6e49;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    .btn-search:hover { background: #1e4d33; }
+
+    /* Layout */
+    .main-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+
+    /* Danh sách phòng */
+    .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+
+    .room-card {
+        background: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+        transition: transform 0.2s;
+    }
+    .room-card:hover { transform: translateY(-2px); }
+    .room-card img { width: 100%; height: 140px; object-fit: cover; background: #eee; }
+    .room-card .card-body { padding: 12px 14px; }
+    .room-card .room-name { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 4px; }
+    .room-card .room-meta { font-size: 0.82rem; color: #666; margin-bottom: 2px; }
+    .room-card .room-price { font-size: 0.95rem; font-weight: 500; color: #2c6e49; margin: 6px 0; }
+    .room-card .room-guests { font-size: 0.78rem; color: #999; margin-bottom: 10px; }
+
+    .btn-add {
+        width: 100%;
+        padding: 8px;
+        background: #2c6e49;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.88rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .btn-add:hover { background: #1e4d33; }
+    .btn-add.added { background: #999; cursor: default; }
+
+    /* Giỏ phòng */
+    .cart-box {
+        background: #fff;
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        position: sticky;
+        top: 20px;
+    }
+    .cart-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #1a1a1a; margin-bottom: 14px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+    .cart-empty { color: #bbb; font-size: 0.9rem; text-align: center; padding: 20px 0; }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f5f5f5;
+        font-size: 0.88rem;
+    }
+    .cart-item .item-name { color: #1a1a1a; font-weight: 500; }
+    .cart-item .item-type { color: #888; font-size: 0.78rem; }
+    .cart-item .btn-remove { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 1rem; padding: 0 4px; }
+
+    /* Số người trong giỏ */
+    .guest-select { width: 100%; padding: 5px 8px; border: 1.5px solid #e0e0e0; border-radius: 6px; font-size: 0.82rem; margin-top: 4px; }
+
+    .cart-summary {
+        background: #f8f8f8;
+        border-radius: 10px;
+        padding: 12px;
+        margin-top: 12px;
+        font-size: 0.88rem;
+    }
+    .cart-summary .row { display: flex; justify-content: space-between; margin-bottom: 4px; color: #555; }
+    .cart-summary .row.total { font-weight: 500; color: #1a1a1a; border-top: 1px solid #e0e0e0; padding-top: 6px; margin-top: 4px; }
+    .cart-summary .row.deposit { color: #2c6e49; font-weight: 500; }
+
+    .btn-book {
+        width: 100%;
+        padding: 12px;
+        background: #2c6e49;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        margin-top: 14px;
+        transition: background 0.2s;
+    }
+    .btn-book:hover { background: #1e4d33; }
+    .btn-book:disabled { background: #ccc; cursor: default; }
+
+    @@media (max-width: 768px) {
+        .main-layout { grid-template-columns: 1fr; }
+        .cart-box { position: static; }
+    }
+</style>
+
+<div class="page-wrapper">
+   
+    <div class="hero">
+    <div class="hero-title">
+        WELCOME TO
+    </div>
+
+    <div class="hero-name">
+        TNT HOTEL
+    </div>
+
+    <div class="hero-sub">
+     Đánh thức mọi giác quan, nâng tầm mọi trải nghiệm.
+    </div>
+</div>
+
+<h1 style="margin-top:40px;">
+    🏨 Danh sách phòng
+</h1>
+
+    <!-- Form tìm phòng -->
+    <form method="get" class="search-bar" id="searchForm">
+        <div class="field">
+            <label>Ngày nhận</label>
+            <input type="date" name="checkIn" value="@ViewBag.CheckIn"
+                   min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+        </div>
+        <div class="field">
+            <label>Ngày trả</label>
+            <input type="date" name="checkOut" value="@ViewBag.CheckOut"
+                   min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" required />
+        </div>
+        <div class="field" style="max-width:120px;">
+            <label>Số phòng</label>
+            <select name="soPhong">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (ViewBag.SoPhong != null && ViewBag.SoPhong == i)
+                    {
+                                                        <option value="@i" selected>@i phòng</option>
+                    }
+                    else
+                    {
+                                                        <option value="@i">@i phòng</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <div class="field" style="font-size:0.8rem; color:#888; align-self:center; padding-top:16px;">
+    🕒 Nhận: 14:00 · Trả: 12:00
+</div>
+        <button type="submit" class="btn-search">🔍 Tìm phòng</button>
+    </form>
+
+    @if (Model != null)
+    {
+                        <div class="main-layout">
+                            <!-- Danh sách phòng -->
+                            <div>
+                @if (Model.Count > 0)
+                {
+                                                    <div class="rooms-grid">
+                        @foreach (var room in Model)
+                        {
+                            var maxG = room.RoomType?.MaxGuests ?? 2;
+                            var hasKids = room.RoomType?.TypeName == "Phòng gia đình";
+                                                                            <div class="room-card" id="card-@room.RoomID">
+                                @{
+                                    var imgName = room.RoomType?.TypeName switch
+                                    {
+                                        "Phòng đơn" => "phongdon.jpg",
+                                        "Phòng đôi" => "phongdoi.jpg",
+                                        "Phòng gia đình" => "phonggiadinh.jpg",
+                                        "Phòng VIP" => "phongvip.jpg",
+                                        _ => "default.jpg"
+                                    };
+                                }
+            <img src="/images/rooms/@imgName" alt="@room.RoomName"
+                 onerror="this.src='https://placehold.co/250x140'" />
+                                                                                <div class="card-body">
+                                                                                    <div class="room-name">Phòng @room.RoomName</div>
+                                                                                    <div class="room-meta">@room.RoomType?.TypeName</div>
+                                                                                    <div class="room-price">@room.RoomType?.Price.ToString("N0") VNĐ / đêm</div>
+                                                                                    <div class="room-guests">
+                                                                                        👥 @(maxG <= 2 ? "1" : "1")–@maxG khách
+                                        @if (hasKids)
+                                        {
+                                                                                            <span>· Miễn phí 2 trẻ em dưới 10 tuổi</span>
+                                        }
+                                                                                    </div>
+                                                                                    <button class="btn-add"
+                                                                                            data-roomid="@room.RoomID"
+                                                                                            data-roomname="@room.RoomName"
+                                                                                            data-roomtype="@room.RoomType?.TypeName"
+                                                                                            data-price="@room.RoomType?.Price"
+                                                                                            data-maxguests="@maxG"
+                                                                                            data-haskids="@(hasKids ? "true" : "false")">
+                                                                                        + Chọn phòng
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                        }
+                                                    </div>
+                }
+                else
+                {
+                                                    <p style="text-align:center; color:#888; margin-top:40px;">Không tìm thấy phòng phù hợp 😢</p>
+                }
+                            </div>
+     
+
+                            <!-- Giỏ phòng -->
+                            <div class="cart-box">
+                                <div class="cart-title">🛒 Phòng đã chọn (<span id="cartCount">0</span>)</div>
+                                <div id="cartItems">
+                                    <div class="cart-empty" id="cartEmpty">Chưa chọn phòng nào</div>
+                                </div>
+
+                                <div class="cart-summary" id="cartSummary" style="display:none;">
+                                    <div class="row"><span id="summaryNights"></span><span></span></div>
+                                    <div class="row total"><span>Tổng tiền</span><span id="summaryTotal"></span></div>
+                                    <div class="row deposit"><span>Cọc 50%</span><span id="summaryDeposit"></span></div>
+                                </div>
+
+                                <button class="btn-book" id="btnBook" disabled onclick="goToBooking()">
+                                    Đặt phòng →
+                                </button>
+                            </div>
+                        </div>
+    }
+</div>
+
+<script>
+    // Giỏ phòng lưu trong bộ nhớ
+    let cart = [];
+    const checkIn = document.querySelector("[name=checkIn]")?.value;
+    const checkOut = document.querySelector("[name=checkOut]")?.value;
+
+    function nights() {
+        if (!checkIn || !checkOut) return 1;
+        const d = (new Date(checkOut) - new Date(checkIn)) / 86400000;
+        return d > 0 ? d : 1;
+    }
+
+    function fmt(n) { return Number(n).toLocaleString('vi-VN') + ' VNĐ'; }
+
+    function addToCart(roomId, roomName, roomType, price, maxGuests, hasKids, btn) {
+        if (cart.find(r => r.roomId === roomId)) return;
+
+        cart.push({ roomId, roomName, roomType, price, maxGuests, hasKids, soNguoi: 1 });
+        btn.textContent = '✓ Đã chọn';
+        btn.classList.add('added');
+        btn.disabled = true;
+
+        renderCart();
+    }
+
+    // Dùng event delegation để tránh conflict dấu nháy
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-add');
+        if (!btn) return;
+
+        const roomId   = parseInt(btn.dataset.roomid);
+        const roomName = btn.dataset.roomname;
+        const roomType = btn.dataset.roomtype;
+        const price    = parseFloat(btn.dataset.price);
+        const maxGuests = parseInt(btn.dataset.maxguests);
+        const hasKids  = btn.dataset.haskids === 'true';
+
+        addToCart(roomId, roomName, roomType, price, maxGuests, hasKids, btn);
+    });
+
+    function removeFromCart(roomId) {
+        cart = cart.filter(r => r.roomId !== roomId);
+
+        // Bật lại nút trên card
+        const btn = document.querySelector(`#card-${roomId} .btn-add`);
+        if (btn) {
+            btn.textContent = '+ Chọn phòng';
+            btn.classList.remove('added');
+            btn.disabled = false;
+        }
+
+        renderCart();
+    }
+
+    function renderCart() {
+        const container = document.getElementById('cartItems');
+        const empty = document.getElementById('cartEmpty');
+        const summary = document.getElementById('cartSummary');
+        const btnBook = document.getElementById('btnBook');
+        const cartCount = document.getElementById('cartCount');
+
+        cartCount.textContent = cart.length;
+
+        if (cart.length === 0) {
+            container.innerHTML = '<div class="cart-empty">Chưa chọn phòng nào</div>';
+            summary.style.display = 'none';
+            btnBook.disabled = true;
+            return;
+        }
+
+        summary.style.display = 'block';
+        btnBook.disabled = false;
+
+        // Render từng phòng
+        let totalPrice = 0;
+        let html = '';
+
+        cart.forEach(room => {
+            totalPrice += room.price;
+
+            // Tạo options số người
+            let options = '';
+            for (let i = 1; i <= room.maxGuests; i++) {
+                options += `<option value="${i}" ${room.soNguoi === i ? 'selected' : ''}>${i} người</option>`;
+            }
+            if (room.hasKids) {
+                options += `<option value="${room.maxGuests + 1}">${room.maxGuests} người + 1 trẻ em</option>`;
+                options += `<option value="${room.maxGuests + 2}">${room.maxGuests} người + 2 trẻ em</option>`;
+            }
+
+            html += `
+                <div class="cart-item">
+                    <div>
+                        <div class="item-name">Phòng ${room.roomName}</div>
+                        <div class="item-type">${room.roomType} · ${fmt(room.price)}/đêm</div>
+                        <select class="guest-select" onchange="updateGuests(${room.roomId}, this.value)">
+                            ${options}
+                        </select>
+                    </div>
+                    <button class="btn-remove" onclick="removeFromCart(${room.roomId})">✕</button>
+                </div>`;
+        });
+
+        container.innerHTML = html;
+
+        // Summary
+        const total = totalPrice * nights();
+        const deposit = total * 0.5;
+        document.getElementById('summaryNights').textContent = `${cart.length} phòng × ${nights()} đêm`;
+        document.getElementById('summaryTotal').textContent = fmt(total);
+        document.getElementById('summaryDeposit').textContent = fmt(deposit);
+    }
+
+    function updateGuests(roomId, value) {
+        const room = cart.find(r => r.roomId === roomId);
+        if (room) room.soNguoi = parseInt(value);
+    }
+
+    function goToBooking() {
+    if (cart.length === 0) return;
+
+    // ✅ Lấy trực tiếp từ input lúc bấm
+    const checkInVal = document.querySelector("[name=checkIn]").value;
+    const checkOutVal = document.querySelector("[name=checkOut]").value;
+
+    if (!checkInVal || !checkOutVal) {
+        alert("Vui lòng chọn ngày trước khi đặt phòng!");
+        return;
+    }
+
+    const n = Math.round((new Date(checkOutVal) - new Date(checkInVal)) / 86400000);
+
+    sessionStorage.setItem('bookingCart', JSON.stringify({
+        rooms: cart,
+        checkIn: checkInVal,
+        checkOut: checkOutVal,
+        nights: n > 0 ? n : 1
+    }));
+    window.location.href = '/Booking/Create';
+}
+
+    // Validate ngày
+    document.getElementById('searchForm').onsubmit = function () {
+        const inVal = document.querySelector("[name=checkIn]").value;
+        const outVal = document.querySelector("[name=checkOut]").value;
+        if (new Date(outVal) <= new Date(inVal)) {
+            alert("Ngày trả phòng phải sau ngày nhận phòng!");
+            return false;
+        }
+    };
+</script>

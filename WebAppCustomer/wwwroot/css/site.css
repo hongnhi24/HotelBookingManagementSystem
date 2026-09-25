@@ -1,0 +1,402 @@
+﻿html {
+    font-size: 14px;
+    scroll-behavior: smooth;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 0;
+    background: #f5f0eb;
+}
+
+/*body {
+  margin-bottom: 60px;
+}*/
+.contact-fixed {
+    position: fixed;
+    right: 20px;
+    top: 40%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 9999;
+}
+
+.contact-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+/* Màu riêng từng nút */
+.phone {
+    background: #28a745;
+}
+
+.zalo {
+    background: #0084ff;
+}
+
+.facebook {
+    background: #3b5998;
+}
+
+/* Hover */
+.contact-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+.container {
+    max-width: 100% !important;
+}
+.container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+/* ===== HERO TNT HOTEL ===== */
+.hero {
+    text-align: center;
+    padding: 120px 20px;
+    background: linear-gradient(135deg, #0b1f3a, #0d2c54);
+    border-radius: 10px;
+}
+
+/* chữ WELCOME */
+.hero-title {
+    font-size: 40px;
+    color: #ffd700;
+    letter-spacing: 4px;
+}
+
+/* chữ TNT HOTEL */
+.hero-name {
+    font-size: 65px;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* slogan */
+.hero-sub {
+    font-size: 18px;
+    color: #ddd;
+    margin-top: 10px;
+}
+
+/* hiệu ứng */
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #ffd700;
+    }
+
+    to {
+        text-shadow: 0 0 25px #ffd700, 0 0 40px #ffc107;
+    }
+}
+
+/* =========================
+   NAVBAR TNT HOTEL
+========================= */
+
+.custom-navbar {
+    background: linear-gradient(135deg, #0b1f3a, #102b50);
+    padding: 14px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.logo-text {
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffd700 !important;
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+    .logo-text:hover {
+        color: white !important;
+    }
+
+.custom-link {
+    color: white !important;
+    margin: 0 12px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+    .custom-link:hover {
+        color: #ffd700 !important;
+    }
+
+.btn-book-now {
+    background: #ffd700;
+    color: #0b1f3a;
+    padding: 10px 22px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+    .btn-book-now:hover {
+        background: white;
+        color: #0b1f3a;
+    }
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer-custom {
+    background: #0b1f3a;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* =========================
+   HERO TNT HOTEL
+========================= */
+
+.hero {
+    text-align: center;
+    padding: 120px 20px;
+    background: linear-gradient(135deg, #0b1f3a, #0d2c54);
+    border-radius: 16px;
+    margin-top: 20px;
+}
+
+.hero-title {
+    font-size: 40px;
+    color: #ffd700;
+    letter-spacing: 4px;
+}
+
+.hero-name {
+    font-size: 70px;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255,215,0,0.7), 0 0 20px rgba(255,215,0,0.5);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.hero-sub {
+    font-size: 18px;
+    color: #ddd;
+    margin-top: 14px;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #ffd700;
+    }
+
+    to {
+        text-shadow: 0 0 25px #ffd700, 0 0 45px #ffc107;
+    }
+}
+/* =========================
+   AMENITIES PAGE
+========================= */
+
+.amenities-page {
+    background: #0a0907;
+    color: white;
+    min-height: 100vh;
+    padding: 80px 40px;
+}
+
+.section-head {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.mini-title {
+    color: #d4af37;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+}
+
+.section-head h1 {
+    font-size: 60px;
+    color: white;
+}
+
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 30px;
+}
+
+.amenity-card {
+    border: 1px solid rgba(212,175,55,0.2);
+    padding: 50px 30px;
+    text-align: center;
+    transition: 0.4s;
+    background: #111;
+}
+
+    .amenity-card:hover {
+        transform: translateY(-8px);
+        border-color: #d4af37;
+    }
+
+.amenity-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.amenity-title {
+    font-size: 30px;
+    color: #d4af37;
+    margin-bottom: 15px;
+}
+
+.amenity-desc {
+    color: #bbb;
+    line-height: 1.8;
+}
+
+/* =========================
+   CONTACT PAGE
+========================= */
+
+.contact-page {
+    background: #050505;
+    color: white;
+    min-height: 100vh;
+    padding: 80px 40px;
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.contact-left h1 {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.contact-left p {
+    color: #aaa;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.contact-item {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.ci-icon {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #d4af37;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
+
+.ci-label {
+    color: #d4af37;
+    letter-spacing: 3px;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.contact-right {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.social-box {
+    border: 1px solid rgba(212,175,55,0.2);
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    transition: 0.4s;
+}
+
+    .social-box:hover {
+        border-color: #d4af37;
+        transform: translateX(5px);
+    }
+
+.social-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.social-sub {
+    color: #999;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px) {
+
+    .amenities-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:600px) {
+
+    .amenities-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-head h1,
+    .contact-left h1 {
+        font-size: 40px;
+    }
+}

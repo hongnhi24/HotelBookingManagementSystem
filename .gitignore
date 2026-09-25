@@ -1,0 +1,44 @@
+# Visual Studio and .NET build output
+.vs/
+**/.vs/
+**/bin/
+**/obj/
+**/packages/
+
+# User-specific files
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+# Build and temporary files
+*.pdb
+*.cache
+*.tmp
+*.temp
+*.log
+TestResults/
+artifacts/
+
+# Publish output
+publish/
+**/PublishProfiles/
+
+# Local configuration and secrets
+.env
+.env.*
+secrets.json
+appsettings.Local.json
+
+# Local databases and backups
+*.mdf
+*.ldf
+*.bak
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+

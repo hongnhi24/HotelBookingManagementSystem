@@ -1,0 +1,137 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TNT Hotel</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebAppCustomer.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+
+        <nav class="navbar navbar-expand-lg custom-navbar">
+    <div class="container-fluid px-4">
+
+        <!-- LOGO -->
+        <a class="navbar-brand logo-text"
+           asp-controller="Home"
+           asp-action="Index">
+             TNT Hotel
+        </a>
+
+        <!-- BUTTON MOBILE -->
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- MENU -->
+        <div class="collapse navbar-collapse"
+             id="navbarContent">
+
+            <ul class="navbar-nav ms-auto align-items-center">
+
+                <li class="nav-item">
+                    <a class="nav-link custom-link"
+                       asp-controller="Home"
+                       asp-action="Index">
+                        Trang chủ
+                    </a>
+                </li>
+
+              
+<li class="nav-item">
+
+    <a class="nav-link custom-link"
+       asp-controller="Room"
+       asp-action="Index">
+
+        Tìm phòng
+
+    </a>
+
+</li>
+<li class="nav-item">
+    <a class="nav-link custom-link"
+       asp-controller="Booking"
+       asp-action="SearchHistory">
+        Lịch sử
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link custom-link"
+       asp-controller="Home"
+       asp-action="Amenities">
+        Tiện nghi
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link custom-link"
+       asp-controller="Home"
+       asp-action="Contact">
+        Liên hệ
+    </a>
+</li>
+
+
+                <li class="nav-item ms-3">
+                  <a class="btn-book-now"
+   asp-controller="Room"
+   asp-action="Index">
+    Đặt ngay
+</a>
+                </li>
+                
+            </ul>
+
+        </div>
+    </div>
+</nav>
+    </header>
+   <div class="container-fluid">
+    <main role="main" class="pb-3">
+            @RenderBody()
+    </main>
+</div>
+
+
+       <footer class="footer-custom">
+
+        <div class="container-fluid text-center">
+    © 2026 TNT Hotel · Luxury & Comfort
+</div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- CONTACT FLOATING -->
+<div class="contact-fixed">
+
+    <a href="tel:0909123456"
+       class="contact-btn phone">
+        📞
+    </a>
+
+  <a href="https://zalo.me/0909123456" target="_blank" class="contact-btn zalo" 
+       style="display: flex; justify-content: center; align-items: center; text-decoration: none;">
+        <span style="color: white; font-weight: bold; font-size: 22px; font-family: Arial;">z</span>
+    </a>
+
+    <a href="https://facebook.com" target="_blank" class="contact-btn facebook" 
+       style="display: flex; justify-content: center; align-items: center; text-decoration: none;">
+        <span style="color: white; font-weight: bold; font-size: 22px; font-family: Arial;">f</span>
+    </a>
+
+</div>
+
+</body>
+</html>

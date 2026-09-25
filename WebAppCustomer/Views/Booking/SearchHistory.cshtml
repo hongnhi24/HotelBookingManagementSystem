@@ -1,0 +1,44 @@
+﻿<div class="container py-5">
+
+    <h2 class="mb-4">
+        🔍 Tra cứu lịch sử đặt phòng
+    </h2>
+
+    <form method="post" class="card p-4 shadow-sm">
+
+        <div class="mb-3">
+            <label class="form-label">
+                CCCD
+            </label>
+
+            <input type="text"
+                   name="cccd"
+                   class="form-control"
+                   required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Số điện thoại
+            </label>
+
+            <input type="text"
+                   name="sdt"
+                   class="form-control"
+                   required />
+        </div>
+
+        <button class="btn btn-primary">
+            Xem lịch sử
+        </button>
+
+    </form>
+
+    @if (ViewBag.Error != null)
+    {
+            <div class="alert alert-danger mt-3">
+            @ViewBag.Error
+            </div>
+    }
+
+</div>

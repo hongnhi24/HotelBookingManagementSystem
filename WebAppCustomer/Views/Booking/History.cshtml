@@ -1,0 +1,70 @@
+﻿@model List<Booking>
+
+<div class="container py-5">
+
+    <h2 class="mb-4">
+        🏨 Lịch sử đặt phòng
+    </h2>
+
+    @if (Model.Count == 0)
+    {
+            <div class="alert alert-secondary">
+                Chưa có booking nào
+            </div>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+                    <div class="card p-4 mb-4 shadow-sm">
+
+                        <h5>
+                            Booking #@item.BookingID
+                        </h5>
+
+                        <p>
+                            📅 Nhận phòng:
+                    @item.CheckInDate.ToString("dd/MM/yyyy")
+                        </p>
+
+                        <p>
+                            📅 Trả phòng:
+                    @item.CheckOutDate.ToString("dd/MM/yyyy")
+                        </p>
+
+                        <p>
+                            📌 Trạng thái:
+                    @item.Status
+                        </p>
+
+                        <p>
+                            🌙 Loại thuê:
+                    @item.LoaiHinhThue
+                        </p>
+
+                        <p>
+                            💵 Tiền cọc:
+                    @(item.Deposit?.ToString("N0")) VNĐ
+                        </p>
+
+                        <hr />
+
+                        <h6>Danh sách phòng:</h6>
+
+                        <ul>
+                    @if (item.BookingDetails != null)
+                    {
+                        @foreach (var d in item.BookingDetails)
+                        {
+                                            <li>
+                                                Phòng @d.Room?.RoomName
+                                            </li>
+                        }
+                    }
+                        </ul>
+
+                    </div>
+        }
+    }
+
+</div>

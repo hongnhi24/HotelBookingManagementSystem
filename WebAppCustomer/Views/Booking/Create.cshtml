@@ -1,0 +1,138 @@
+﻿@{
+    ViewData["Title"] = "Đặt phòng";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: #f5f0eb; }
+    .wrapper { max-width: 960px; margin: 40px auto; padding: 0 20px 60px; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #1a1a1a; text-align: center; margin-bottom: 28px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .card { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 2px 14px rgba(0,0,0,0.07); }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #2c6e49; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 2px solid #e8f5e9; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+    .form-group input, .form-group select { width: 100%; padding: 10px 13px; border: 1.5px solid #e0e0e0; border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 0.93rem; background: #fafafa; outline: none; color: #1a1a1a; }
+    .form-group input:focus, .form-group select:focus { border-color: #2c6e49; background: #fff; }
+    .room-row { background: #f0faf4; border: 1.5px solid #b7dfc4; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; }
+    .room-row .rname { font-weight: 500; font-size: 0.95rem; color: #1a1a1a; }
+    .room-row .rmeta { font-size: 0.82rem; color: #555; margin-top: 2px; }
+    .room-row .rprice { font-size: 0.9rem; color: #2c6e49; font-weight: 500; margin-top: 4px; }
+    .summary { background: #1a1a1a; color: #fff; border-radius: 12px; padding: 14px 18px; margin-top: 14px; }
+    .summary .srow { display: flex; justify-content: space-between; font-size: 0.88rem; color: #bbb; margin-bottom: 6px; }
+    .summary .srow.total { color: #fff; font-weight: 500; border-top: 1px solid #333; padding-top: 8px; margin-top: 4px; }
+    .summary .srow.deposit { color: #81c995; font-weight: 500; }
+    .btn-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 28px; }
+    .btn-cancel { padding: 11px 26px; border: 1.5px solid #ccc; border-radius: 9px; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 0.93rem; color: #555; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+    .btn-cancel:hover { border-color: #999; color: #1a1a1a; }
+    .btn-submit { padding: 11px 32px; border: none; border-radius: 9px; background: #2c6e49; font-family: 'DM Sans', sans-serif; font-size: 0.93rem; font-weight: 500; color: #fff; cursor: pointer; }
+    .btn-submit:hover { background: #1e4d33; }
+    @@media (max-width: 680px) { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="wrapper">
+    <h1>🏨 Xác nhận đặt phòng</h1>
+
+    <div id="noCart" style="display:none; text-align:center; padding:40px; color:#888;">
+        <p>Bạn chưa chọn phòng nào. <a href="/Room/Index">Quay lại tìm phòng</a></p>
+    </div>
+
+    <form id="bookingForm" method="post" action="/Booking/Create" style="display:none;">
+        <input type="hidden" name="cartJson" id="cartJson" />
+
+        <div class="grid">
+            <!-- Thông tin khách -->
+            <div class="card">
+                <div class="card-title">👤 Thông tin khách hàng</div>
+                <div class="form-group">
+                    <label>Họ và tên</label>
+                    <input type="text" name="HoTen" placeholder="Nguyễn Văn A" required />
+                </div>
+                <div class="form-group">
+                    <label>Số CCCD / Hộ chiếu</label>
+                    <input type="text" name="CCCD" placeholder="012345678901" maxlength="12" required />
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại</label>
+                    <input type="tel" name="SoDienThoai" placeholder="0912 345 678" maxlength="10" required />
+                </div>
+                 <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" name="Email" placeholder="abc123@gmail.com" />
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ</label>
+                    <input type="text" name="DiaChi" placeholder="123 Đường ABC, TP.HCM" />
+                </div>
+                <div class="form-group">
+                    <label>Quốc tịch</label>
+                    <input type="text" name="QuocTich" placeholder="Việt Nam" />
+                </div>
+                <div class="form-group">
+                    <label>Giới tính</label>
+                    <select name="GioiTinh">
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                       
+                    </select>
+                </div>
+            </div>
+
+            <!-- Phòng đã chọn -->
+            <div class="card">
+                <div class="card-title">🛏 Phòng đã chọn</div>
+                <div id="roomList"></div>
+                <div style="font-size:0.85rem; color:#555; margin-bottom:8px;">
+                    📅 <span id="dateRange"></span>
+                </div>
+                <div class="summary">
+                    <div class="srow"><span id="sumRooms"></span><span></span></div>
+                    <div class="srow total"><span>Tổng tiền</span><span id="sumTotal"></span></div>
+                    <div class="srow deposit"><span>Cọc 50%</span><span id="sumDeposit"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <a href="/Room/Index" class="btn-cancel">← Quay lại</a>
+            <button type="submit" class="btn-submit">Xác nhận đặt phòng →</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function fmt(n) { return Number(n).toLocaleString('vi-VN') + ' VNĐ'; }
+
+    window.onload = function () {
+        const raw = sessionStorage.getItem('bookingCart');
+        if (!raw) { document.getElementById('noCart').style.display = 'block'; return; }
+
+        const data = JSON.parse(raw);
+        document.getElementById('bookingForm').style.display = 'block';
+        document.getElementById('cartJson').value = raw;
+
+        const inDate = new Date(data.checkIn).toLocaleDateString('vi-VN');
+        const outDate = new Date(data.checkOut).toLocaleDateString('vi-VN');
+        document.getElementById('dateRange').textContent = `${inDate} → ${outDate} (${data.nights} đêm)`;
+
+        const roomList = document.getElementById('roomList');
+        let totalPrice = 0;
+        data.rooms.forEach(room => {
+            const subtotal = room.price * data.nights;
+            totalPrice += subtotal;
+            roomList.innerHTML += `
+                <div class="room-row">
+                    <div class="rname">Phòng ${room.roomName}</div>
+                    <div class="rmeta">${room.roomType} · ${room.soNguoi} người</div>
+                    <div class="rprice">${fmt(room.price)} × ${data.nights} đêm = ${fmt(subtotal)}</div>
+                </div>`;
+        });
+
+        const deposit = totalPrice * 0.5;
+        document.getElementById('sumRooms').textContent = `${data.rooms.length} phòng × ${data.nights} đêm`;
+        document.getElementById('sumTotal').textContent = fmt(totalPrice);
+        document.getElementById('sumDeposit').textContent = fmt(deposit);
+    };
+</script>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="679a823c306147dd90f500ee6c948942" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="HotelManagementModel.sysdiagram" Width="1.5" PointX="17.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementModel.Role" Width="1.5" PointX="14.5" PointY="1" />
+        <EntityTypeShape EntityType="HotelManagementModel.EmployeeAccount" Width="1.5" PointX="14.375" PointY="4.75" />
+        <EntityTypeShape EntityType="HotelManagementModel.CaLamViec" Width="1.5" PointX="17.375" PointY="5.25" />
+        <EntityTypeShape EntityType="HotelManagementModel.ChamCong" Width="1.5" PointX="15.375" PointY="8" />
+        <AssociationConnector Association="HotelManagementModel.FK_ChamCong_Ca" />
+        <EntityTypeShape EntityType="HotelManagementModel.BangLuong" Width="1.5" PointX="12.625" PointY="6.875" />
+        <EntityTypeShape EntityType="HotelManagementModel.BookingDetail" Width="1.5" PointX="7" PointY="5" />
+        <EntityTypeShape EntityType="HotelManagementModel.Room" Width="1.5" PointX="4.625" PointY="6.375" />
+        <AssociationConnector Association="HotelManagementModel.FK_BookingDetail_Room" />
+        <EntityTypeShape EntityType="HotelManagementModel.BookingService" Width="1.5" PointX="8.625" PointY="1.125" />
+        <EntityTypeShape EntityType="HotelManagementModel.Service" Width="1.5" PointX="9" PointY="9.125" />
+        <AssociationConnector Association="HotelManagementModel.FK_BookingService_Service" />
+        <EntityTypeShape EntityType="HotelManagementModel.Booking" Width="1.5" PointX="4.625" PointY="1.75" />
+        <AssociationConnector Association="HotelManagementModel.FK_BookingDetail_Booking" />
+        <AssociationConnector Association="HotelManagementModel.FK_BookingService_Booking" />
+        <EntityTypeShape EntityType="HotelManagementModel.RoomType" Width="1.5" PointX="2.375" PointY="7.25" />
+        <AssociationConnector Association="HotelManagementModel.FK_Room_RoomType" />
+        <EntityTypeShape EntityType="HotelManagementModel.Invoice" Width="1.5" PointX="6.875" PointY="12.75" />
+        <AssociationConnector Association="HotelManagementModel.FK_Invoice_Booking" />
+        <EntityTypeShape EntityType="HotelManagementModel.Employee" Width="1.5" PointX="16.75" PointY="11.625" />
+        <AssociationConnector Association="HotelManagementModel.FK_BangLuong_NV" />
+        <AssociationConnector Association="HotelManagementModel.FK_ChamCong_NV" />
+        <AssociationConnector Association="HotelManagementModel.FK_Account_Employees" />
+        <AssociationConnector Association="HotelManagementModel.FK__Employees__MaChu__08B54D69" />
+        <EntityTypeShape EntityType="HotelManagementModel.Customer" Width="1.5" PointX="2.375" PointY="2.375" />
+        <AssociationConnector Association="HotelManagementModel.FK_Booking_Customer" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
